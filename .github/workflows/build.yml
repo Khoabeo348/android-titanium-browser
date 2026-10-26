@@ -1,3 +1,4 @@
+
 name: Build
 
 on:
@@ -6,8 +7,11 @@ on:
       runner:
         description: 'Runner'
         required: true
-        type: string
-        default: 'self-hosted' # ubuntu-latest
+        type: choice
+        options:
+          - ubuntu-latest
+          - self-hosted
+        default: ubuntu-latest
   schedule:
     - cron: '0 0 */16 * *'
 
@@ -18,7 +22,7 @@ permissions:
 
 jobs:
   build:
-    runs-on: ${{ github.event_name == 'workflow_dispatch' && inputs.runner || 'self-hosted' }}
+    runs-on: ${{ github.event_name == 'workflow_dispatch' && inputs.runner || 'ubuntu-latest' }}  
     steps:
       - uses: actions/checkout@v5
         with:
